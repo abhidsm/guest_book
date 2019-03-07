@@ -1,0 +1,19 @@
+version: '3.2'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: GuestBook_development
+  app:
+    build: .
+    command: "bin/bundle exec rails s -p 3000 -b 0.0.0.0"
+    depends_on:
+      - db
+    volumes:
+      - .:/guest-book
+    ports:
+      - "3000:3000"
